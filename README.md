@@ -31,3 +31,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 For detailed instructions on how to create and use this template, see [replicate.com/docs/get-started/nextjs](https://replicate.com/docs/get-started/nextjs)
 
+luksi02's input: this project is a variation/modification of Replicate's Llama Chat, 
+https://github.com/replicate/llama-chat - as in first commit of this repository.  
