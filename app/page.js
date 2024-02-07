@@ -13,6 +13,11 @@ import { LlamaTemplate } from "../src/prompt_template";
 
 import { countTokens } from "./src/tokenizer.js";
 
+const Post = require("../server/mongodb/models/post");
+import PostSchema from "../server/mongodb/models/post";
+
+import ChatHistory from "../server/mongodb/models/chatHistory";
+
 const MODELS = [
   {
     id: "meta/llama-2-7b-chat",
@@ -244,6 +249,49 @@ export default function HomePage() {
     dispatch({ type: "START" });
 
     complete(prompt);
+
+    // try {
+    //   const newChatHistory = new ChatHistory({
+    //     prompt: prompt,
+    //     response: completion,
+    //   });
+    //     await newChatHistory.save();
+    //     console.log("Chat data saved to MongoDB");
+    //   } catch (error) {
+    //     console.error("Error saving chat data to MongoDB:", error);
+    //   }
+    // };
+
+    try {
+      const newPost = await PostSchema.create({            
+            prompt,            
+        });    
+        await newPost.$__save();
+        console.log("Chat data saved to MongoDB");
+      } catch (error) {
+        console.error("Error saving chat data to MongoDB:", error);
+      }    
+
+    console.log(prompt)
+    console.log(completion)
+    console.log(messageHistory)
+
+    // try {
+    //   const newChatHistory = new ChatHistory({
+    //     prompt: prompt,
+    //     response: completion,
+    //   });
+
+    //   console.log(typeof newChatHistory) 
+    //   console.log(newChatHistory instanceof ChatHistory)
+    //   console.log(newChatHistory)
+    //   console.log(Object.getOwnPropertyNames(newChatHistory))
+
+    //   await newChatHistory.$__save();
+    //   console.log("Chat data saved to MongoDB");
+    // } catch (error) {
+    //   console.error("Error saving chat data to MongoDB:", error);
+    // }
   };
 
   useEffect(() => {
@@ -254,7 +302,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="bg-slate-100 border-b-2 text-center p-3">
+      {/* <div className="bg-slate-100 border-b-2 text-center p-3">
         Powered by Replicate. <CTA shortenedModelName={model.shortened} />
       </div>
       <nav className="grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0">
@@ -298,7 +346,7 @@ export default function HomePage() {
             <span className="hidden sm:inline">Settings</span>
           </button>
         </div>
-      </nav>
+      </nav> */}
 
       <Toaster position="top-left" reverseOrder={false} />
 
@@ -308,7 +356,7 @@ export default function HomePage() {
           <EmptyState setPrompt={setAndSubmitPrompt} setOpen={setOpen} />
         )}
 
-        <SlideOver
+        {/* <SlideOver
           open={open}
           setOpen={setOpen}
           systemPrompt={systemPrompt}
@@ -323,7 +371,7 @@ export default function HomePage() {
           models={MODELS}
           size={model}
           setSize={setModel}
-        />
+        /> */}
 
         {image && (
           <div>
