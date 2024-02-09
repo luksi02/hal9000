@@ -1,13 +1,6 @@
 import { Analytics } from "@vercel/analytics/react";
 import "../styles/globals.css";
 
-export const metdata = {
-  title: "Llama Chat",
-  openGraph: {
-    title: "Llama Chat",
-    description: "Chat with Llama 2",
-  },
-};
 
 export default function RootLayout({ children }) {
   return (
