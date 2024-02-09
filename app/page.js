@@ -13,10 +13,11 @@ import { LlamaTemplate } from "../src/prompt_template";
 
 import { countTokens } from "./src/tokenizer.js";
 
-const Post = require("../server/mongodb/models/post");
-import PostSchema from "../server/mongodb/models/post";
+// const Post = require("../server/mongodb/models/post");
+// import PostSchema from "../server/mongodb/models/post";
 
-import ChatHistory from "../server/mongodb/models/chatHistory";
+// import ChatHistory from "../server/mongodb/models/chatHistory";
+// import SendServerButton from "./components_hal/ServerSendButtom";
 
 const MODELS = [
   {
@@ -249,6 +250,12 @@ export default function HomePage() {
     dispatch({ type: "START" });
 
     complete(prompt);
+  };
+
+
+  // HAL9000 connection to server, beware!
+  const sendToServer = async () => {
+    // event.preventDefault;
 
     // try {
     //   const newChatHistory = new ChatHistory({
@@ -260,39 +267,41 @@ export default function HomePage() {
     //   } catch (error) {
     //     console.error("Error saving chat data to MongoDB:", error);
     //   }
-    // };
 
-    try {
-      const newPost = await PostSchema.create({            
-            prompt,            
-        });    
-        await newPost.$__save();
-        console.log("Chat data saved to MongoDB");
-      } catch (error) {
-        console.error("Error saving chat data to MongoDB:", error);
-      }    
-
-    console.log(prompt)
-    console.log(completion)
-    console.log(messageHistory)
 
     // try {
-    //   const newChatHistory = new ChatHistory({
-    //     prompt: prompt,
-    //     response: completion,
-    //   });
+    //   const newPost = await PostSchema.create({            
+    //         prompt,            
+    //     });    
+    //     await newPost.$__save();
+    //     console.log("Chat data saved to MongoDB");
+    //   } catch (error) {
+    //     console.error("Error saving chat data to MongoDB:", error);
+    //   }    
 
-    //   console.log(typeof newChatHistory) 
-    //   console.log(newChatHistory instanceof ChatHistory)
-    //   console.log(newChatHistory)
-    //   console.log(Object.getOwnPropertyNames(newChatHistory))
+    // console.log(prompt)
+    // console.log(completion)
+    // console.log(messageHistory)
 
-    //   await newChatHistory.$__save();
-    //   console.log("Chat data saved to MongoDB");
-    // } catch (error) {
-    //   console.error("Error saving chat data to MongoDB:", error);
-    // }
-  };
+    try {
+      const newChatHistory = new ChatHistory({
+        prompt: prompt,
+        response: completion,
+      });
+
+      console.log(typeof newChatHistory)
+      console.log(newChatHistory instanceof ChatHistory)
+      console.log(newChatHistory)
+      console.log(Object.getOwnPropertyNames(newChatHistory))
+
+      await newChatHistory.$__save();
+      console.log("Chat data saved to MongoDB");
+    } catch (error) {
+      console.error("Error saving chat data to MongoDB:", error);
+    }
+
+    console.log("Butt-oned this butt-on!")
+  }
 
   useEffect(() => {
     if (messages?.length > 0 || completion?.length > 0) {
@@ -392,7 +401,9 @@ export default function HomePage() {
           handleFileUpload={handleFileUpload}
           completion={completion}
           metrics={metrics}
+          onSubmitSendToServer={sendToServer}
         />
+        {/* <SendServerButton onSubmit={sendToServer} /> */}
 
         {error && <div>{error}</div>}
 

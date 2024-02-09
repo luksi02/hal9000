@@ -45,6 +45,7 @@ const ChatForm = ({
   handleFileUpload,
   metrics,
   completion,
+  onSubmitSendToServer,
 }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -59,6 +60,15 @@ const ChatForm = ({
       handleSubmit(event);
     }
   };
+
+  // HAL9000 - beware!
+  const sendToServer = async (event) => {
+    event.preventDefault();
+    onSubmitSendToServer();
+    // setPrompt("");
+    // event.target.rows = 1;
+  }
+    
 
   return (
     <footer className="z-10 fixed bottom-0 left-0 right-0 bg-slate-100 border-t-2">
@@ -107,7 +117,16 @@ const ChatForm = ({
           >
             Chat
           </button>
+          
         </form>
+        <form className="w-full flex" onSubmit={sendToServer}>
+          <button
+            className="w-full flex bg-gray-600 hover:bg-gray-800 items-center font-semibold text-white text-center rounded-md px-5 py-3"
+            type="submit"
+          >
+            Send to server
+            </button>
+          </form>
       </div>
     </footer>
   );
