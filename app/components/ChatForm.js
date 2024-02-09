@@ -68,7 +68,7 @@ const ChatForm = ({
     // setPrompt("");
     // event.target.rows = 1;
   }
-    
+
 
   return (
     <footer className="z-10 fixed bottom-0 left-0 right-0 bg-slate-100 border-t-2">
@@ -88,7 +88,7 @@ const ChatForm = ({
           >
             {({ onClick }) => (
               <button
-                className="p-3 border-gray-600 border-2 inline-flex hover:bg-gray-300 rounded-md mr-3"
+                className="p-3 border-gray-600 border-2 inline-flex hover:bg-purple-800 rounded-md mr-3"
                 onClick={onClick}
               >
                 Upload
@@ -99,7 +99,7 @@ const ChatForm = ({
             autoComplete="off"
             autoFocus
             name="prompt"
-            className="flex-grow block w-full rounded-l-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:leading-6"
+            className="flex-grow block w-full rounded-l-md border-0 py-1.5 text-yellow-500 ring-1 ring-inset ring-gray-300 placeholder:text-yellow-500 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:leading-6"
             placeholder="Send a message"
             required={true}
             value={prompt}
@@ -112,21 +112,21 @@ const ChatForm = ({
             }}
           />
           <button
-            className="bg-gray-600 hover:bg-gray-800 items-center font-semibold text-white rounded-r-md px-5 py-3"
+            className="bg-black hover:bg-purple-800 items-center font-semibold text-yellow-500 rounded-r-md px-5 py-3"
             type="submit"
           >
             Chat
           </button>
-          
+
         </form>
         <form className="w-full flex" onSubmit={sendToServer}>
           <button
-            className="w-full flex bg-gray-600 hover:bg-gray-800 items-center font-semibold text-white text-center rounded-md px-5 py-3"
+            className="w-full flex bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-5 py-3"
             type="submit"
           >
             Send to server
-            </button>
-          </form>
+          </button>
+        </form>
       </div>
     </footer>
   );
