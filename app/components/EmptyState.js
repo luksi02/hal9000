@@ -1,18 +1,19 @@
 export default function EmptyState({ setOpen, setPrompt }) {
   return (
-    <div className="mt-12 sm:mt-24 space-y-6 text-gray-400 text-base mx-8 sm:mx-4 sm:text-2xl leading-12">
+    <div className="mt-12 sm:mt-24 space-y-6 text-yellow-500 text-base mx-8 sm:mx-4 sm:text-2xl leading-12 bg-black">
       <p>
         {" "}
-        Customize Llama&apos;s personality by clicking the{" "}
-        <button
+        {/* Customize Llama&apos;s personality by clicking the{" "} */}
+        I'm HAL9000, this vessel AI, welcome, please do tell what do you wish to know.
+        {/* <button
           className="prompt-button inline-flex items-center "
           onClick={() => setOpen(true)}
         >
           settings{" "}
         </button>{" "}
-        button.
+        button. */}
       </p>
-      <p>
+      {/* <p>
         I can{" "}
         <button
           className="prompt-button"
@@ -66,7 +67,7 @@ export default function EmptyState({ setOpen, setPrompt }) {
         >
           name your pets.
         </button>{" "}
-      </p>
+      </p> */}
       <p>Send me a message, or upload an image or audio file.</p>
     </div>
   );
