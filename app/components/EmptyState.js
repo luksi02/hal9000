@@ -4,7 +4,7 @@ export default function EmptyState({ setOpen, setPrompt }) {
       <p>
         {" "}
         {/* Customize Llama&apos;s personality by clicking the{" "} */}
-        I'm HAL9000, this vessel AI, welcome, please do tell what do you wish to know.
+        I&apos;m HAL9000, this vessel AI, welcome, please do tell what do you wish to know.
         {/* <button
           className="prompt-button inline-flex items-center "
           onClick={() => setOpen(true)}
