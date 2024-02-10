@@ -19,6 +19,9 @@ import { countTokens } from "./src/tokenizer.js";
 // import ChatHistory from "../server/mongodb/models/chatHistory";
 // import SendServerButton from "./components_hal/ServerSendButtom";
 
+import TextToSpeech from "./components_hal/TextToSpeech.js";
+
+
 const MODELS = [
   {
     id: "meta/llama-2-7b-chat",
@@ -119,6 +122,9 @@ export default function HomePage() {
   const [error, setError] = useState(null);
   const [starting, setStarting] = useState(false);
 
+  // HAL9000 state
+  const [spokenText, setSpokenText] = useState('');
+
   //   Llama params
   const [model, setModel] = useState(MODELS[2]); // default to 70B
   const [systemPrompt, setSystemPrompt] = useState(
@@ -202,6 +208,8 @@ export default function HomePage() {
     setSystemPrompt(event.target.systemPrompt.value);
   };
 
+  // let spokenText =""
+
   const handleSubmit = async (userMessage) => {
     setStarting(true);
     const SNIP = "<!-- snip -->";
@@ -250,11 +258,70 @@ export default function HomePage() {
     dispatch({ type: "START" });
 
     complete(prompt);
+
+    // speak("this wont work")
+    
+    // Speak and HAL9000 shall answer
+    const makeSpokenText = () => {
+      if (messageHistory.length > 0) {
+        const latestText = messageHistory[messageHistory.length - 1].text;
+        const secondLatestText = messageHistory.length >= 2 ? messageHistory[messageHistory.length - 2].text : "";
+    
+        setSpokenText(`Prompt: ${latestText || ""}${secondLatestText ? `Answer: ${secondLatestText}` : ""}`);
+      } else {
+        setSpokenText("no text yet");
+      }
+    };
+
+
+
+
+     try {
+      console.log(prompt);
+      console.log(completion);
+      console.log(messageHistory);
+
+      console.log(messageHistory[0]);
+
+      console.log(messageHistory[0].text);
+
+
+      makeSpokenText(messageHistory)
+
+      console.log(spokenText)
+      } catch (error) {
+        console.error("console log problems", error);
+      }    
+
+      
   };
+
+  // HAL9000 SPEAKS! HEAR HEAR!
+  // const [text, setText] = useState('');
+  // const speechRef = useRef(null);
+
+  // const speak = () => {
+  //   if (speechRef.current.speaking) {
+  //     speechRef.current.cancel();
+  //   } else {
+  //     const utterance = new SpeechSynthesisUtterance(text);
+  //     speechRef.current.speak(utterance);
+  //   }
+  // };  
+
+  
 
 
   // HAL9000 connection to server, beware!
   const sendToServer = async () => {
+
+    try {
+      console.log(prompt);
+      console.log(completion);
+      console.log(messageHistory);
+      } catch (error) {
+        console.error("console log problems", error);
+      }  
     // event.preventDefault;
 
     // try {
@@ -277,11 +344,8 @@ export default function HomePage() {
     //     console.log("Chat data saved to MongoDB");
     //   } catch (error) {
     //     console.error("Error saving chat data to MongoDB:", error);
-    //   }    
+      // }    
 
-    // console.log(prompt)
-    // console.log(completion)
-    // console.log(messageHistory)
 
     try {
       const newChatHistory = new ChatHistory({
@@ -405,6 +469,8 @@ export default function HomePage() {
         />
         {/* <SendServerButton onSubmit={sendToServer} /> */}
 
+        <TextToSpeech text={spokenText || "no text yet"} />
+
         {error && <div>{error}</div>}
 
         <article className="pb-24">
@@ -421,6 +487,7 @@ export default function HomePage() {
 
           <div ref={bottomRef} />
         </article>
+        
       </main>
     </>
   );
