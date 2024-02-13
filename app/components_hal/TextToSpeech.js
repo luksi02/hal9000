@@ -87,7 +87,7 @@ const TextToSpeech = ({ text }) => {
 
       <br />
 
-      <label>
+      {/* <label>
         Pitch:
         <input
           type="range"
@@ -123,7 +123,7 @@ const TextToSpeech = ({ text }) => {
           value={volume}
           onChange={handleVolumeChange}
         />
-      </label>
+      </label> */}
 
       <br />
 
