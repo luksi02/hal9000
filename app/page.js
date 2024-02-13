@@ -260,13 +260,13 @@ export default function HomePage() {
     complete(prompt);
 
     // speak("this wont work")
-    
+
     // Speak and HAL9000 shall answer
     const makeSpokenText = () => {
       if (messageHistory.length > 0) {
         const latestText = messageHistory[messageHistory.length - 1].text;
         const secondLatestText = messageHistory.length >= 2 ? messageHistory[messageHistory.length - 2].text : "";
-    
+
         setSpokenText(`Prompt: ${latestText || ""}${secondLatestText ? `Answer: ${secondLatestText}` : ""}`);
       } else {
         setSpokenText("no text yet");
@@ -276,7 +276,7 @@ export default function HomePage() {
 
 
 
-     try {
+    try {
       console.log(prompt);
       console.log(completion);
       console.log(messageHistory);
@@ -289,11 +289,11 @@ export default function HomePage() {
       makeSpokenText(messageHistory)
 
       console.log(spokenText)
-      } catch (error) {
-        console.error("console log problems", error);
-      }    
+    } catch (error) {
+      console.error("console log problems", error);
+    }
 
-      
+
   };
 
   // HAL9000 SPEAKS! HEAR HEAR!
@@ -309,7 +309,7 @@ export default function HomePage() {
   //   }
   // };  
 
-  
+
 
 
   // HAL9000 connection to server, beware!
@@ -319,9 +319,9 @@ export default function HomePage() {
       console.log(prompt);
       console.log(completion);
       console.log(messageHistory);
-      } catch (error) {
-        console.error("console log problems", error);
-      }  
+    } catch (error) {
+      console.error("console log problems", error);
+    }
     // event.preventDefault;
 
     // try {
@@ -344,7 +344,7 @@ export default function HomePage() {
     //     console.log("Chat data saved to MongoDB");
     //   } catch (error) {
     //     console.error("Error saving chat data to MongoDB:", error);
-      // }    
+    // }    
 
 
     try {
@@ -375,10 +375,14 @@ export default function HomePage() {
 
   return (
     <>
-      {/* <div className="bg-slate-100 border-b-2 text-center p-3">
-        Powered by Replicate. <CTA shortenedModelName={model.shortened} />
+      <div className="bg-slate-100 border-b-2 text-center p-3">
+
+        {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "no text yet"} />}
+
+        {/* Powered by Replicate. <CTA shortenedModelName={model.shortened} /> */}
       </div>
-      <nav className="grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0">
+
+      {/* <nav className="grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0">
         <div className="hidden sm:inline-block"></div>
         <div className="font-semibold text-gray-500 sm:text-center">
           {model.shortened == "Llava"
@@ -469,7 +473,7 @@ export default function HomePage() {
         />
         {/* <SendServerButton onSubmit={sendToServer} /> */}
 
-        {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "no text yet"} />}
+
 
         {error && <div>{error}</div>}
 
@@ -487,7 +491,7 @@ export default function HomePage() {
 
           <div ref={bottomRef} />
         </article>
-        
+
       </main>
     </>
   );
