@@ -469,7 +469,7 @@ export default function HomePage() {
         />
         {/* <SendServerButton onSubmit={sendToServer} /> */}
 
-        <TextToSpeech text={spokenText || "no text yet"} />
+        {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "no text yet"} />}
 
         {error && <div>{error}</div>}
 
