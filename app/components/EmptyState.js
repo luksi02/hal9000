@@ -1,6 +1,6 @@
 export default function EmptyState({ setOpen, setPrompt }) {
   return (
-    <div className="mt-12 sm:mt-24 space-y-6 text-yellow-500 text-base mx-8 sm:mx-4 sm:text-2xl leading-12 bg-black">
+    <div className="mt-12 sm:mt-24 space-y-6 text-yellow-500 text-base mx-8 sm:mx-4 sm:text-2xl leading-12 bg-black rounded-md">
       <p>
         {" "}
         {/* Customize Llama&apos;s personality by clicking the{" "} */}

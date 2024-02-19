@@ -375,14 +375,15 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="bg-slate-100 border-b-2 text-center p-3">
+      <div className="bg-slate-700 flex flex-col">
+        <div className="z-0 fixed top-0 left-0 right-0 bg-slate-600 border-t-2 border-yellow-500 border-2 container max-w-2xl mx-auto px-1 pb-1">
 
-        {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "no text yet"} />}
+          {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "I'm HAL9000, this vessel AI, welcome, please do tell what do you wish to know."} />}
 
-        {/* Powered by Replicate. <CTA shortenedModelName={model.shortened} /> */}
-      </div>
+          {/* Powered by Replicate. <CTA shortenedModelName={model.shortened} /> */}
+        </div>
 
-      {/* <nav className="grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0">
+        {/* <nav className="grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0">
         <div className="hidden sm:inline-block"></div>
         <div className="font-semibold text-gray-500 sm:text-center">
           {model.shortened == "Llava"
@@ -425,15 +426,15 @@ export default function HomePage() {
         </div>
       </nav> */}
 
-      <Toaster position="top-left" reverseOrder={false} />
+        <Toaster position="top-left" reverseOrder={false} />
 
-      <main className="max-w-2xl pb-5 mx-auto mt-4 sm:px-4">
-        <div className="text-center"></div>
-        {messages.length == 0 && !image && !audio && (
-          <EmptyState setPrompt={setAndSubmitPrompt} setOpen={setOpen} />
-        )}
+        <main className="flex flex-col max-w-2xl pb-5 mx-auto mt-20 sm:px-4 bg-slate-700">
+          <div className="text-center"></div>
+          {messages.length == 0 && !image && !audio && (
+            <EmptyState setPrompt={setAndSubmitPrompt} setOpen={setOpen} />
+          )}
 
-        {/* <SlideOver
+          {/* <SlideOver
           open={open}
           setOpen={setOpen}
           systemPrompt={systemPrompt}
@@ -450,49 +451,50 @@ export default function HomePage() {
           setSize={setModel}
         /> */}
 
-        {image && (
-          <div>
-            <img src={image} className="mt-6 sm:rounded-xl" />
-          </div>
-        )}
+          {image && (
+            <div>
+              <img src={image} className="mt-6 sm:rounded-xl" />
+            </div>
+          )}
 
-        {audio && (
-          <div>
-            <audio controls src={audio} className="mt-6 sm:rounded-xl" />
-          </div>
-        )}
+          {audio && (
+            <div>
+              <audio controls src={audio} className="mt-6 sm:rounded-xl" />
+            </div>
+          )}
 
-        <ChatForm
-          prompt={input}
-          setPrompt={setInput}
-          onSubmit={handleSubmit}
-          handleFileUpload={handleFileUpload}
-          completion={completion}
-          metrics={metrics}
-          onSubmitSendToServer={sendToServer}
-        />
-        {/* <SendServerButton onSubmit={sendToServer} /> */}
+          <ChatForm
+            prompt={input}
+            setPrompt={setInput}
+            onSubmit={handleSubmit}
+            handleFileUpload={handleFileUpload}
+            completion={completion}
+            metrics={metrics}
+            onSubmitSendToServer={sendToServer}
+          />
+          {/* <SendServerButton onSubmit={sendToServer} /> */}
 
 
 
-        {error && <div>{error}</div>}
+          {error && <div>{error}</div>}
 
-        <article className="pb-24">
-          {messages.map((message, index) => (
-            <Message
-              key={`message-${index}`}
-              message={message.text}
-              isUser={message.isUser}
-            />
-          ))}
-          <Message message={completion} isUser={false} />
+          <article className="z-10 pb-24">
+            {messages.map((message, index) => (
+              <Message
+                key={`message-${index}`}
+                message={message.text}
+                isUser={message.isUser}
+              />
+            ))}
+            <Message message={completion} isUser={false} />
 
-          {starting && <QueuedSpinner />}
+            {starting && <QueuedSpinner />}
 
-          <div ref={bottomRef} />
-        </article>
+            <div ref={bottomRef} />
+          </article>
 
-      </main>
+        </main>
+      </div>
     </>
   );
 }

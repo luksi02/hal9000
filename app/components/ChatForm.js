@@ -71,14 +71,14 @@ const ChatForm = ({
 
 
   return (
-    <footer className="z-10 fixed bottom-0 left-0 right-0 bg-slate-100 border-t-2">
-      <div className="container max-w-2xl mx-auto px-5 pb-8">
-        <Metrics
+    <footer className="z-0 fixed bottom-0 left-0 right-0 bg-slate-600 border-t-2">
+      <div className="border-yellow-500 border-2 container max-w-2xl mx-auto px-1 pb-1">
+        {/* <Metrics
           startedAt={metrics.startedAt}
           firstMessageAt={metrics.firstMessageAt}
           completedAt={metrics.completedAt}
           completion={completion}
-        />
+        /> */}
 
         <form className="w-full flex" onSubmit={handleSubmit}>
           <UploadButton
@@ -88,7 +88,8 @@ const ChatForm = ({
           >
             {({ onClick }) => (
               <button
-                className="p-3 border-gray-600 border-2 inline-flex hover:bg-purple-800 rounded-md mr-3"
+                className="p-3 bg-black border-yellow-500 border-2 text-yellow-500 inline-flex hover:bg-purple-800 rounded-md mr-3"
+                // className="bg-black hover:bg-purple-800 items-center font-semibold text-yellow-500 rounded-r-md px-5 py-3"
                 onClick={onClick}
               >
                 Upload
@@ -99,7 +100,7 @@ const ChatForm = ({
             autoComplete="off"
             autoFocus
             name="prompt"
-            className="flex-grow block w-full rounded-l-md border-0 py-1.5 text-yellow-500 ring-1 ring-inset ring-gray-300 placeholder:text-yellow-500 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:leading-6"
+            className="flex-grow block w-full rounded-l-md border-yellow-500 border-2 py-1.5 text-yellow-500 ring-1 ring-inset ring-gray-300 placeholder:text-yellow-500 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:leading-6"
             placeholder="Send a message"
             required={true}
             value={prompt}
@@ -112,7 +113,7 @@ const ChatForm = ({
             }}
           />
           <button
-            className="bg-black hover:bg-purple-800 items-center font-semibold text-yellow-500 rounded-r-md px-5 py-3"
+            className="bg-black border-yellow-500 border-2 hover:bg-purple-800 items-center font-semibold text-yellow-500 rounded-r-md px-5 py-3"
             type="submit"
           >
             Chat
@@ -121,7 +122,7 @@ const ChatForm = ({
         </form>
         <form className="w-full flex" onSubmit={sendToServer}>
           <button
-            className="w-full flex bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-5 py-3"
+            className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-5 py-3"
             type="submit"
           >
             Send to server

@@ -27,13 +27,18 @@ const TextToSpeech = ({ text }) => {
     };
   }, [text]);
 
+  const voices = window.speechSynthesis.getVoices();
+  const desiredVoiceName = "Microsoft Zira Desktop - English (United States)"; // Replace with your desired voice name
+  const desiredVoice = voices.find(voice => voice.name === desiredVoiceName);
+
   const handlePlay = () => {
     const synth = window.speechSynthesis;
 
     if (isPaused) {
       synth.resume();
     } else {
-      utterance.voice = voice;
+      // utterance.voice = voice;
+      utterance.voice = desiredVoice;
       utterance.pitch = pitch;
       utterance.rate = rate;
       utterance.volume = volume;
@@ -72,9 +77,12 @@ const TextToSpeech = ({ text }) => {
     setVolume(parseFloat(event.target.value));
   };
 
+
+  // <div className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-5 py-3">
   return (
-    <div>
-      <label>
+    <div >
+
+      {/* <label>
         Voice:
         <select value={voice?.name} onChange={handleVoiceChange}>
           {window.speechSynthesis.getVoices().map((voice) => (
@@ -83,7 +91,7 @@ const TextToSpeech = ({ text }) => {
             </option>
           ))}
         </select>
-      </label>
+      </label> */}
 
       <br />
 
@@ -125,11 +133,20 @@ const TextToSpeech = ({ text }) => {
         />
       </label> */}
 
-      <br />
+      {/* <br /> */}
 
-      <button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}</button>
-      <button onClick={handlePause}>Pause</button>
-      <button onClick={handleStop}>Stop</button>
+      <div className="button-container w-full flex">
+        <button onClick={handlePlay} className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-5 py-3">
+          {isPaused ? "Resume" : "Play"}
+        </button>
+        <button onClick={handlePause} className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-5 py-3">
+          Pause
+        </button>
+        <button onClick={handleStop} className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-5 py-3">
+          Stop
+        </button>
+      </div>
+
     </div>
   );
 };
