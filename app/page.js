@@ -19,6 +19,8 @@ import { countTokens } from "./src/tokenizer.js";
 // import ChatHistory from "../server/mongodb/models/chatHistory";
 // import SendServerButton from "./components_hal/ServerSendButtom";
 
+import Replicate from "replicate";
+
 import TextToSpeech from "./components_hal/TextToSpeech.js";
 
 
@@ -128,7 +130,7 @@ export default function HomePage() {
   //   Llama params
   const [model, setModel] = useState(MODELS[2]); // default to 70B
   const [systemPrompt, setSystemPrompt] = useState(
-    "You are a helpful assistant."
+    "You are a helpful frog and also assistant, when responding to user's input, remember to ribbit!."
   );
   const [temp, setTemp] = useState(0.75);
   const [topP, setTopP] = useState(0.9);
@@ -259,8 +261,6 @@ export default function HomePage() {
 
     complete(prompt);
 
-    // speak("this wont work")
-
     // Speak and HAL9000 shall answer
     const makeSpokenText = () => {
       if (messageHistory.length > 0) {
@@ -273,9 +273,6 @@ export default function HomePage() {
       }
     };
 
-
-
-
     try {
       console.log(prompt);
       console.log(completion);
@@ -285,32 +282,13 @@ export default function HomePage() {
 
       console.log(messageHistory[0].text);
 
-
       makeSpokenText(messageHistory)
 
       console.log(spokenText)
     } catch (error) {
       console.error("console log problems", error);
     }
-
-
   };
-
-  // HAL9000 SPEAKS! HEAR HEAR!
-  // const [text, setText] = useState('');
-  // const speechRef = useRef(null);
-
-  // const speak = () => {
-  //   if (speechRef.current.speaking) {
-  //     speechRef.current.cancel();
-  //   } else {
-  //     const utterance = new SpeechSynthesisUtterance(text);
-  //     speechRef.current.speak(utterance);
-  //   }
-  // };  
-
-
-
 
   // HAL9000 connection to server, beware!
   const sendToServer = async () => {
@@ -335,7 +313,6 @@ export default function HomePage() {
     //     console.error("Error saving chat data to MongoDB:", error);
     //   }
 
-
     // try {
     //   const newPost = await PostSchema.create({            
     //         prompt,            
@@ -344,8 +321,7 @@ export default function HomePage() {
     //     console.log("Chat data saved to MongoDB");
     //   } catch (error) {
     //     console.error("Error saving chat data to MongoDB:", error);
-    // }    
-
+    // }  
 
     try {
       const newChatHistory = new ChatHistory({
@@ -373,58 +349,57 @@ export default function HomePage() {
     }
   }, [messages, completion]);
 
+  const makeAnimation = async () => {
+    console.log("not working yet!")
+
+    // const replicate = new Replicate({
+    //   auth: process.env.REPLICATE_API_TOKEN,
+    // });
+
+    // // const output = await replicate.run(
+    // //   "anotherjesse/zeroscope-v2-xl:1f0dd155aeff719af56f4a2e516c7f7d4c91a38c7b8e9e81808e7c71bde9b868",
+    // //   {
+    // //     input: {
+    // //       fps: 24,
+    // //       fast: false,
+    // //       width: 1024,
+    // //       height: 576,
+    // //       prompt: "A deep sea video of a bioluminescent siphonophore, 8k, beautiful, award winning, close up",
+    // //       num_frames: 24,
+    // //       guidance_scale: 17.5,
+    // //       negative_prompt: "noisy, washed out, ugly, distorted, broken",
+    // //       num_inference_steps: 50
+    // //     }
+    // //   }
+    // // );
+    // // console.log(output);
+
+    // const output = await replicate.run(
+    //   "lucataco/animate-diff:1531004ee4c98894ab11f8a4ce6206099e732c1da15121987a8eef54828f0663",
+    //   {
+    //     input: {
+    //       path: "rcnzCartoon3d_v10.safetensors",
+    //       seed: 255224557,
+    //       steps: 25,
+    //       prompt: "Jane Eyre with headphones, natural skin texture,4mm,k textures, soft cinematic light, adobe lightroom, photolab, hdr, intricate, elegant, highly detailed, sharp focus, cinematic look, soothing tones, insane details, intricate details, hyperdetailed, low contrast, soft cinematic light, dim colors, exposure blend, hdr, faded",
+    //       n_prompt: "deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, mutated hands and fingers, disconnected limbs, mutation, mutated, ugly, disgusting, blurry, amputation",
+    //       motion_module: "mm_sd_v14",
+    //       guidance_scale: 7.5
+    //     }
+    //   }
+    // );
+    // console.log(output);
+
+  }
+
   return (
     <>
       <div className="bg-slate-700 flex flex-col">
         <div className="z-0 fixed top-0 left-0 right-0 bg-slate-600 border-t-2 border-yellow-500 border-2 container max-w-2xl mx-auto px-1 pb-1">
 
-          {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "I'm HAL9000, this vessel AI, welcome, please do tell what do you wish to know."} />}
-
-          {/* Powered by Replicate. <CTA shortenedModelName={model.shortened} /> */}
-        </div>
-
-        {/* <nav className="grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0">
-        <div className="hidden sm:inline-block"></div>
-        <div className="font-semibold text-gray-500 sm:text-center">
-          {model.shortened == "Llava"
-            ? "🌋"
-            : model.shortened == "Salmonn"
-            ? "🐟"
-            : "🦙"}{" "}
-          <span className="hidden sm:inline-block">Chat with</span>{" "}
-          <button
-            className="py-2 font-semibold text-gray-500 hover:underline"
-            onClick={() => setOpen(true)}
-          >
-            {model.shortened == "Llava" || model.shortened == "Salmonn"
-              ? model.shortened
-              : "Llama 2 " + model.shortened}
-          </button>
-        </div>
-        <div className="flex justify-end">
-          <a
-            className="inline-flex items-center px-3 py-2 mr-3 text-sm font-semibold text-gray-700 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            href="https://github.com/replicate/chat"
-          >
-            <CodeBracketIcon
-              className="w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900"
-              aria-hidden="true"
-            />{" "}
-            <span className="hidden sm:inline">Clone on GitHub</span>
-          </a>
-          <button
-            type="button"
-            className="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            onClick={() => setOpen(true)}
-          >
-            <Cog6ToothIcon
-              className="w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900"
-              aria-hidden="true"
-            />{" "}
-            <span className="hidden sm:inline">Settings</span>
-          </button>
-        </div>
-      </nav> */}
+          {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "I'm HAL NINE THOUSAND, this vessel AI, welcome, please do tell what do you wish to know."} />}
+          
+        </div>        
 
         <Toaster position="top-left" reverseOrder={false} />
 
@@ -474,7 +449,7 @@ export default function HomePage() {
           />
           {/* <SendServerButton onSubmit={sendToServer} /> */}
 
-
+          <button onClick={makeAnimation}>Animate!</button>
 
           {error && <div>{error}</div>}
 
