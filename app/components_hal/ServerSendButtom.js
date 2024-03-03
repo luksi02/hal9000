@@ -16,13 +16,13 @@ const ServerSendButton = ({
   };
 
   return (    
-      <div className="container max-w-2xl mx-auto px-5 pb-8">      
+      <div className="container max-w-2xl mx-auto">      
 
         {/* <form className="w-full flex" onSubmit={handleSubmit}>    */}
         <form className="w-full flex" onSubmit={sendToServer}>      
           
           <button
-            className="bg-gray-600 hover:bg-gray-800 items-center font-semibold text-white rounded-r-md px-5 py-3"
+            // className="bg-gray-600 hover:bg-gray-800 items-center font-semibold text-white rounded-r-md px-5 py-3"
             type="submit"
           >
             Send to server

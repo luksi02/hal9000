@@ -14,10 +14,10 @@ import { LlamaTemplate } from "../src/prompt_template";
 import { countTokens } from "./src/tokenizer.js";
 
 // const Post = require("../server/mongodb/models/post");
-// import PostSchema from "../server/mongodb/models/post";
+import PostSchema from "../server/mongodb/models/post";
 
-// import ChatHistory from "../server/mongodb/models/chatHistory";
-// import SendServerButton from "./components_hal/ServerSendButtom";
+import ChatHistory from "../server/mongodb/models/chatHistory";
+import SendServerButton from "./components_hal/ServerSendButtom";
 
 import Replicate from "replicate";
 
@@ -291,57 +291,70 @@ export default function HomePage() {
   };
 
   // HAL9000 connection to server, beware!
-  const sendToServer = async () => {
+  // const sendToServer = async (event) => {
 
-    try {
-      console.log(prompt);
-      console.log(completion);
-      console.log(messageHistory);
-    } catch (error) {
-      console.error("console log problems", error);
-    }
-    // event.preventDefault;
+  //   try {
+  //     const newChatHistory = new ChatHistory({
+  //       // prompt: "prompt",
+  //       // response: "completion",
+  //       prompt: prompt,
+  //       response: completion,
+  //     });
 
-    // try {
-    //   const newChatHistory = new ChatHistory({
-    //     prompt: prompt,
-    //     response: completion,
-    //   });
-    //     await newChatHistory.save();
-    //     console.log("Chat data saved to MongoDB");
-    //   } catch (error) {
-    //     console.error("Error saving chat data to MongoDB:", error);
-    //   }
+  //     // console.log(typeof newChatHistory)
+  //     // console.log(newChatHistory instanceof ChatHistory)
+  //     // console.log(newChatHistory)
+  //     // console.log(Object.getOwnPropertyNames(newChatHistory))
 
-    // try {
-    //   const newPost = await PostSchema.create({            
-    //         prompt,            
-    //     });    
-    //     await newPost.$__save();
-    //     console.log("Chat data saved to MongoDB");
-    //   } catch (error) {
-    //     console.error("Error saving chat data to MongoDB:", error);
-    // }  
+  //     await newChatHistory.$__save();
+  //     console.log("Chat data saved to MongoDB");
+  //     console.log("this seems to be working, the problem is in sending the content to MongoDB?")
 
-    try {
-      const newChatHistory = new ChatHistory({
-        prompt: prompt,
-        response: completion,
-      });
+  //   } catch (error) {
+  //     console.error("Error saving chat data to MongoDB:", error);
+  //   }
 
-      console.log(typeof newChatHistory)
-      console.log(newChatHistory instanceof ChatHistory)
-      console.log(newChatHistory)
-      console.log(Object.getOwnPropertyNames(newChatHistory))
+  //   console.log("Butt-oned this butt-on!")
+  // }
 
-      await newChatHistory.$__save();
-      console.log("Chat data saved to MongoDB");
-    } catch (error) {
-      console.error("Error saving chat data to MongoDB:", error);
-    }
+  // const mongodb = require('mongodb'); // Assuming you're using the MongoDB driver
 
-    console.log("Butt-oned this butt-on!")
+const sendToServer = async () => {
+  // const sendToServer = async ({ prompt, completion }, client) => {
+  try {
+    // Deconstruct `prompt` and `completion` from event for readability
+    // const { prompt, completion } = event;
+
+    // Check if `client` is already provided to avoid unnecessary connection creation
+    const mongoClient = client;
+    //   // const mongoClient = client || await mongodb.MongoClient.connect(
+    //   // Replace with your actual connection string
+    //   'mongodb://localhost:8080', // Example connection string
+    // //   { useNewUrlParser: true, useUnifiedTopology: true }
+    // // );
+
+    const db = mongoClient.db('your_database_name'); // Replace with your database name
+    const chatHistoryCollection = db.collection('chatHistory'); // Replace with your collection name
+
+    const newChatHistory = new ChatHistory({
+      prompt,
+      response: "compl"
+    });
+
+    await chatHistoryCollection.insertOne(newChatHistory); // Use insertOne for clearer intent
+    console.log("Chat data saved to MongoDB");
+  } catch (error) {
+    console.error("Error saving chat data to MongoDB:", error);
+    // Consider adding more specific error handling based on the error type
+  } finally {
+    // Close the connection if it was created within the function
+    // if (!client) {
+    //   await mongoClient.close();
+    // }
   }
+
+  console.log("Sent data to server successfully!");
+};
 
   useEffect(() => {
     if (messages?.length > 0 || completion?.length > 0) {
@@ -395,15 +408,19 @@ export default function HomePage() {
   return (
     <>
       <div className="bg-slate-700 flex flex-col">
-        <div className="z-0 fixed top-0 left-0 right-0 bg-slate-600 border-t-2 border-yellow-500 border-2 container max-w-2xl mx-auto px-1 pb-1">
+        <div className="z-0 fixed top-0 left-0 right-0 bg-slate-600 border-t-2 border-yellow-500 border-2 container max-w-2xl mx-auto px-0 pb-0">
 
           {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "I'm HAL NINE THOUSAND, this vessel AI, welcome, please do tell what do you wish to know."} />}
+
+          <div className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-3 py-3">
+            <SendServerButton onSubmit={sendToServer} /> 
+          </div>
           
         </div>        
 
         <Toaster position="top-left" reverseOrder={false} />
 
-        <main className="flex flex-col max-w-2xl pb-5 mx-auto mt-20 sm:px-4 bg-slate-700">
+        <main className="flex flex-col max-w-2xl pb-2 mx-auto mt-20 sm:px-4 bg-slate-700">
           <div className="text-center"></div>
           {messages.length == 0 && !image && !audio && (
             <EmptyState setPrompt={setAndSubmitPrompt} setOpen={setOpen} />
@@ -446,10 +463,9 @@ export default function HomePage() {
             completion={completion}
             metrics={metrics}
             onSubmitSendToServer={sendToServer}
-          />
-          {/* <SendServerButton onSubmit={sendToServer} /> */}
+          />         
 
-          <button onClick={makeAnimation}>Animate!</button>
+          {/* <button onClick={makeAnimation}>Animate!</button> */}
 
           {error && <div>{error}</div>}
 
