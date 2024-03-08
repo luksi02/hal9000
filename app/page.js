@@ -23,6 +23,20 @@ import Replicate from "replicate";
 
 import TextToSpeech from "./components_hal/TextToSpeech.js";
 
+import React, { useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Environment, Mesh } from '@react-three/drei';
+
+// Replace 'model.glb' with the path to your 3D model file
+const modelPath = 'model.glb';
+
+// function Model() {
+//   const meshRef = useRef(null);
+
+//   useFrame(() => {
+//     meshRef.current.rotation.y += 0.01; // Rotate the model slightly on each frame
+//   });
+
 
 const MODELS = [
   {
@@ -319,42 +333,42 @@ export default function HomePage() {
 
   // const mongodb = require('mongodb'); // Assuming you're using the MongoDB driver
 
-const sendToServer = async () => {
-  // const sendToServer = async ({ prompt, completion }, client) => {
-  try {
-    // Deconstruct `prompt` and `completion` from event for readability
-    // const { prompt, completion } = event;
+  const sendToServer = async () => {
+    // const sendToServer = async ({ prompt, completion }, client) => {
+    try {
+      // Deconstruct `prompt` and `completion` from event for readability
+      // const { prompt, completion } = event;
 
-    // Check if `client` is already provided to avoid unnecessary connection creation
-    const mongoClient = client;
-    //   // const mongoClient = client || await mongodb.MongoClient.connect(
-    //   // Replace with your actual connection string
-    //   'mongodb://localhost:8080', // Example connection string
-    // //   { useNewUrlParser: true, useUnifiedTopology: true }
-    // // );
+      // Check if `client` is already provided to avoid unnecessary connection creation
+      const mongoClient = client;
+      //   // const mongoClient = client || await mongodb.MongoClient.connect(
+      //   // Replace with your actual connection string
+      //   'mongodb://localhost:8080', // Example connection string
+      // //   { useNewUrlParser: true, useUnifiedTopology: true }
+      // // );
 
-    const db = mongoClient.db('your_database_name'); // Replace with your database name
-    const chatHistoryCollection = db.collection('chatHistory'); // Replace with your collection name
+      const db = mongoClient.db('your_database_name'); // Replace with your database name
+      const chatHistoryCollection = db.collection('chatHistory'); // Replace with your collection name
 
-    const newChatHistory = new ChatHistory({
-      prompt,
-      response: "compl"
-    });
+      const newChatHistory = new ChatHistory({
+        prompt,
+        response: "compl"
+      });
 
-    await chatHistoryCollection.insertOne(newChatHistory); // Use insertOne for clearer intent
-    console.log("Chat data saved to MongoDB");
-  } catch (error) {
-    console.error("Error saving chat data to MongoDB:", error);
-    // Consider adding more specific error handling based on the error type
-  } finally {
-    // Close the connection if it was created within the function
-    // if (!client) {
-    //   await mongoClient.close();
-    // }
-  }
+      await chatHistoryCollection.insertOne(newChatHistory); // Use insertOne for clearer intent
+      console.log("Chat data saved to MongoDB");
+    } catch (error) {
+      console.error("Error saving chat data to MongoDB:", error);
+      // Consider adding more specific error handling based on the error type
+    } finally {
+      // Close the connection if it was created within the function
+      // if (!client) {
+      //   await mongoClient.close();
+      // }
+    }
 
-  console.log("Sent data to server successfully!");
-};
+    console.log("Sent data to server successfully!");
+  };
 
   useEffect(() => {
     if (messages?.length > 0 || completion?.length > 0) {
@@ -412,11 +426,20 @@ const sendToServer = async () => {
 
           {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "I'm HAL NINE THOUSAND, this vessel AI, welcome, please do tell what do you wish to know."} />}
 
-          <div className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-3 py-3">
+          {/* <div className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-3 py-3">
             <SendServerButton onSubmit={sendToServer} /> 
-          </div>
-          
-        </div>        
+          </div> fgvfsd */}
+
+        </div>
+
+        <Canvas>
+          <ambientLight intensity={0.5} />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+          <Environment preset="city" />
+          {/* <Mesh ref={meshRef}> */}
+          {/* <gltfRef={modelPath} /> */}
+          {/* </Mesh> */}
+        </Canvas>
 
         <Toaster position="top-left" reverseOrder={false} />
 
@@ -463,7 +486,7 @@ const sendToServer = async () => {
             completion={completion}
             metrics={metrics}
             onSubmitSendToServer={sendToServer}
-          />         
+          />
 
           {/* <button onClick={makeAnimation}>Animate!</button> */}
 
