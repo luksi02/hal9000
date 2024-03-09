@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const TextSchema = new mongoose.Schema({
     text: {
         type: String,
-        required: true,
+        // required: true,
     },
 });
 
@@ -30,30 +30,40 @@ router.route('/').get(async (req, res) => {
 
 router.route('/').post(async (req, res) => {
     try {
-        // const { prompt } = req.body;
-        const { prompt } = "propopo";
-        // const photoUrl = await cloudinary.uploader.upload(photo);
 
-        const newPost = await Text.create({
-            // name,
-            prompt,
-            // photo: photoUrl.url,
-        })
+        console.log('Received request body:', req.body); // Log the entire request body
 
-        // const result = await Collection.insertOne(newPost);
-        
-        const result = await newPost.save(); // Use Mongoose method to save data
-        res.status(201).json({ success: true, data: result }); // Respond with created data
 
-        // res.status(201).json({ success: true, data: newPost });
-        // res.send(result).status(204);
-        console.log('seems fine')
+
+      const { prompt } = req.body; // Access data from request body
+
+      console.log('Extracted text:', prompt); // Log the extracted value
+  
+      // Validate prompt (example - replace with your validation logic)
+      if (!prompt || prompt.trim() === '') {
+        throw new Error('Prompt is required');
+      }
+
+      const newPost = new Text({ text: prompt }); // Create a new document with the text
+
+    const savedPost = await newPost.save(); // Save the document
+  
+    //   const newPost = await Text.create({ prompt }); // Use create method
+  
+      res.status(201).json({ success: true, data: newPost });
     } catch (error) {
-        res.status(500).json({ success: false, message: error })
-        console.log('failed')
-        console.log(error)
+      console.error(error);
+      let statusCode = 500;
+      let message = 'Internal Server Error';
+  
+      if (error.name === 'ValidationError') {
+        statusCode = 400;
+        message = 'Validation error: ' + error.message;
+      }
+  
+      res.status(statusCode).json({ success: false, message });
     }
-});
+  });
 
 
 router.route('/upload/').post(async (req, res) => {
