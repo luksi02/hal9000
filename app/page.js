@@ -333,42 +333,42 @@ export default function HomePage() {
 
   // const mongodb = require('mongodb'); // Assuming you're using the MongoDB driver
 
-  const sendToServer = async () => {
-    // const sendToServer = async ({ prompt, completion }, client) => {
-    try {
-      // Deconstruct `prompt` and `completion` from event for readability
-      // const { prompt, completion } = event;
+  // const sendToServer = async () => {
+  //   // const sendToServer = async ({ prompt, completion }, client) => {
+  //   // try {
+  //   //   // Deconstruct `prompt` and `completion` from event for readability
+  //   //   // const { prompt, completion } = event;
 
-      // Check if `client` is already provided to avoid unnecessary connection creation
-      const mongoClient = client;
-      //   // const mongoClient = client || await mongodb.MongoClient.connect(
-      //   // Replace with your actual connection string
-      //   'mongodb://localhost:8080', // Example connection string
-      // //   { useNewUrlParser: true, useUnifiedTopology: true }
-      // // );
+  //   //   // Check if `client` is already provided to avoid unnecessary connection creation
+  //   //   const mongoClient = client;
+  //   //   //   // const mongoClient = client || await mongodb.MongoClient.connect(
+  //   //   //   // Replace with your actual connection string
+  //   //   //   'mongodb://localhost:8080', // Example connection string
+  //   //   // //   { useNewUrlParser: true, useUnifiedTopology: true }
+  //   //   // // );
 
-      const db = mongoClient.db('your_database_name'); // Replace with your database name
-      const chatHistoryCollection = db.collection('chatHistory'); // Replace with your collection name
+  //   //   const db = mongoClient.db('your_database_name'); // Replace with your database name
+  //   //   const chatHistoryCollection = db.collection('chatHistory'); // Replace with your collection name
 
-      const newChatHistory = new ChatHistory({
-        prompt,
-        response: "compl"
-      });
+  //   //   const newChatHistory = new ChatHistory({
+  //   //     prompt,
+  //   //     response: "compl"
+  //   //   });
 
-      await chatHistoryCollection.insertOne(newChatHistory); // Use insertOne for clearer intent
-      console.log("Chat data saved to MongoDB");
-    } catch (error) {
-      console.error("Error saving chat data to MongoDB:", error);
-      // Consider adding more specific error handling based on the error type
-    } finally {
-      // Close the connection if it was created within the function
-      // if (!client) {
-      //   await mongoClient.close();
-      // }
-    }
+  //   //   await chatHistoryCollection.insertOne(newChatHistory); // Use insertOne for clearer intent
+  //   //   console.log("Chat data saved to MongoDB");
+  //   // } catch (error) {
+  //   //   console.error("Error saving chat data to MongoDB:", error);
+  //   //   // Consider adding more specific error handling based on the error type
+  //   // } finally {
+  //   //   // Close the connection if it was created within the function
+  //   //   // if (!client) {
+  //   //   //   await mongoClient.close();
+  //   //   // }
+  //   // }
 
-    console.log("Sent data to server successfully!");
-  };
+  //   // console.log("Sent data to server successfully!");
+  // };
 
   useEffect(() => {
 
