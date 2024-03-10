@@ -14,9 +14,9 @@ import { LlamaTemplate } from "../src/prompt_template";
 import { countTokens } from "./src/tokenizer.js";
 
 // const Post = require("../server/mongodb/models/post");
-import PostSchema from "../server/mongodb/models/post";
+// import PostSchema from "../server/mongodb/models/post";
 
-import ChatHistory from "../server/mongodb/models/chatHistory";
+// import ChatHistory from "../server/mongodb/models/chatHistory";
 import SendServerButton from "./components_hal/ServerSendButtom";
 
 import Replicate from "replicate";
@@ -305,7 +305,7 @@ export default function HomePage() {
   };
 
   // HAL9000 connection to server, beware!
-  // const sendToServer = async (event) => {
+  const sendToServer = async (event) => {
 
   //   try {
   //     const newChatHistory = new ChatHistory({
@@ -368,11 +368,10 @@ export default function HomePage() {
   //   // }
 
   //   // console.log("Sent data to server successfully!");
-  // };
+    console.log("not working yet");
+  };
 
   useEffect(() => {
-
-
     if (messages?.length > 0 || completion?.length > 0) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
