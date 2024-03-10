@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import ChatForm from "./components/ChatForm";
 import Message from "./components/Message";
 import SlideOver from "./components/SlideOver";
@@ -23,9 +23,10 @@ import Replicate from "replicate";
 
 import TextToSpeech from "./components_hal/TextToSpeech.js";
 
-import React, { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, Mesh } from '@react-three/drei';
+// import { Canvas, useFrame } from '@react-three/fiber';
+// import { Environment, Mesh } from '@react-three/drei';
+
+import axios from 'axios'; // Install axios for HTTP requests
 
 // Replace 'model.glb' with the path to your 3D model file
 const modelPath = 'model.glb';
@@ -36,6 +37,7 @@ const modelPath = 'model.glb';
 //   useFrame(() => {
 //     meshRef.current.rotation.y += 0.01; // Rotate the model slightly on each frame
 //   });
+
 
 
 const MODELS = [
@@ -224,8 +226,6 @@ export default function HomePage() {
     setSystemPrompt(event.target.systemPrompt.value);
   };
 
-  // let spokenText =""
-
   const handleSubmit = async (userMessage) => {
     setStarting(true);
     const SNIP = "<!-- snip -->";
@@ -371,6 +371,8 @@ export default function HomePage() {
   };
 
   useEffect(() => {
+
+
     if (messages?.length > 0 || completion?.length > 0) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -419,6 +421,61 @@ export default function HomePage() {
 
   }
 
+  // server-connection
+  const [prompt, setPrompt] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmitToServer = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setServerError(null);
+    setSuccess(false);
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/post/', {
+        prompt,
+      });
+
+      if (response.status === 201) {
+        setSuccess(true);
+        setPrompt(''); // Clear input after successful submission (optional)
+      } else {
+        throw new Error('Unexpected response status');
+      }
+    } catch (error) {
+      console.error(error);
+      setServerError(error.message || 'An error occurred while adding the element.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // const [texts, setTexts] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await axios.get('http://localhost:8080/api/post'); // Replace with your endpoint
+  //     setTexts(response.data);
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  // const handleClick = async () => {
+  //   // const fetchData = async () => {
+  //   //   const response = await axios.get('http://localhost:8080/api/post'); // Replace with your endpoint
+  //   //   setTexts(response.data);
+  //   // };
+
+  //   // fetchData();
+
+
+
+  //   await fetchData(); // Call the data fetching function
+  // };
+
   return (
     <>
       <div className="bg-slate-700 flex flex-col">
@@ -426,20 +483,47 @@ export default function HomePage() {
 
           {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "I'm HAL NINE THOUSAND, this vessel AI, welcome, please do tell what do you wish to know."} />}
 
+          {/* Server-conncetion form */}
+          <form onSubmit={handleSubmitToServer}>
+            <label>
+              Prompt:
+              <input type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} required />
+            </label>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Adding...' : 'Add Element'}
+            </button>
+
+            {/* {success && <p>Element added successfully!</p>} */}
+            {error && <p className="error">{error}</p>}
+          </form>
+
+
+          {/* <div>
+            <button onClick={handleClick}>Get Texts</button>
+            {texts.length > 0 && ( // Check if texts is not empty before rendering
+              <ul>
+                {texts.map((text) => (
+                  <li key={text._id}>{text.text}</li>
+                ))}
+              </ul>
+            )}
+          </div> */}
+
+
           {/* <div className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-3 py-3">
             <SendServerButton onSubmit={sendToServer} /> 
           </div> fgvfsd */}
 
         </div>
 
-        <Canvas>
+        {/* <Canvas>
           <ambientLight intensity={0.5} />
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
           <Environment preset="city" />
           {/* <Mesh ref={meshRef}> */}
-          {/* <gltfRef={modelPath} /> */}
-          {/* </Mesh> */}
-        </Canvas>
+        {/* <gltfRef={modelPath} /> */}
+        {/* </Mesh> */}
+        {/* </Canvas> */}
 
         <Toaster position="top-left" reverseOrder={false} />
 
@@ -509,6 +593,7 @@ export default function HomePage() {
 
         </main>
       </div>
+
     </>
   );
 }
