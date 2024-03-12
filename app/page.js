@@ -433,7 +433,8 @@ export default function HomePage() {
     setSuccess(false);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/post/', {
+      const response = await axios.post('https://hal9000-server.vercel.app/api/post/', {
+      // const response = await axios.post('http://localhost:8080/api/post/', {
         prompt,
       });
 
@@ -483,7 +484,9 @@ export default function HomePage() {
           {typeof window !== 'undefined' && <TextToSpeech text={spokenText || "I'm HAL NINE THOUSAND, this vessel AI, welcome, please do tell what do you wish to know."} />}
 
           {/* Server-conncetion form */}
-          <form onSubmit={handleSubmitToServer}>
+          <form onSubmit={handleSubmitToServer}
+          className="bg-black border-yellow-500 border-2 hover:bg-purple-800 items-center font-semibold text-yellow-500 rounded-r-md px-1 py-"
+          >
             <label>
               Prompt:
               <input type="text" value={prompt} onChange={(e) => setPrompt(e.target.value)} required />
@@ -526,7 +529,7 @@ export default function HomePage() {
 
         <Toaster position="top-left" reverseOrder={false} />
 
-        <main className="flex flex-col max-w-2xl pb-2 mx-auto mt-20 sm:px-4 bg-slate-700">
+        <main className="flex flex-col max-w-2xl pb-2 mx-auto mt-28 mb-28 sm:px-4 bg-slate-700">
           <div className="text-center"></div>
           {messages.length == 0 && !image && !audio && (
             <EmptyState setPrompt={setAndSubmitPrompt} setOpen={setOpen} />
@@ -575,7 +578,7 @@ export default function HomePage() {
 
           {error && <div>{error}</div>}
 
-          <article className="z-10 pb-24">
+          <article className="z-24 pb-24">
             {messages.map((message, index) => (
               <Message
                 key={`message-${index}`}
