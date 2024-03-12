@@ -120,14 +120,14 @@ const ChatForm = ({
           </button>
 
         </form>
-        <form className="w-full flex" onSubmit={sendToServer}>
+        {/* <form className="w-full flex" onSubmit={sendToServer}>
           <button
             className="w-full flex border-yellow-500 border-2 bg-black hover:bg-purple-800 font-semibold text-yellow-500 text-center rounded-md px-5 py-3"
             type="submit"
           >
             Send to server
           </button>
-        </form>
+        </form> */}
       </div>
     </footer>
   );
