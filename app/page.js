@@ -305,7 +305,56 @@ export default function HomePage() {
   };
 
   // HAL9000 connection to server, beware!
-  const sendToServer = async (event) => {
+  const sendToServer = async (event) => {   
+    event.preventDefault();
+    setLoading(true);
+    setCurrentAnimation("hit");
+
+    emailjs
+      .send(
+        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: form.name,
+          to_name: "Łukasz Gniewek",
+          from_email: form.email,
+          to_email: "lukaszgniewek@gmail.com",
+          message: form.message,
+        },
+        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+      )
+      .then(
+        () => {
+          setLoading(false);
+          showAlert({
+            show: true,
+            text: "Thank you for your message 😃",
+            type: "success",
+          });
+
+          setTimeout(() => {
+            hideAlert(false);
+            setCurrentAnimation("idle");
+            setForm({
+              name: "",
+              email: "",
+              message: "",
+            });
+          }, [3000]);
+        },
+        (error) => {
+          setLoading(false);
+          console.error(error);
+          setCurrentAnimation("idle");
+
+          showAlert({
+            show: true,
+            text: "I didn't receive your message 😢",
+            type: "danger",
+          });
+        }
+      );
+  };
 
   //   try {
   //     const newChatHistory = new ChatHistory({
