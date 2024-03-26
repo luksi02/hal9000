@@ -305,7 +305,7 @@ export default function HomePage() {
   };
 
   // HAL9000 connection to server, beware!
-  const sendToServer = async (event) => {   
+  const sendToServer = async (event) => {
     event.preventDefault();
     setLoading(true);
     setCurrentAnimation("hit");
@@ -354,69 +354,7 @@ export default function HomePage() {
           });
         }
       );
-  };
 
-  //   try {
-  //     const newChatHistory = new ChatHistory({
-  //       // prompt: "prompt",
-  //       // response: "completion",
-  //       prompt: prompt,
-  //       response: completion,
-  //     });
-
-  //     // console.log(typeof newChatHistory)
-  //     // console.log(newChatHistory instanceof ChatHistory)
-  //     // console.log(newChatHistory)
-  //     // console.log(Object.getOwnPropertyNames(newChatHistory))
-
-  //     await newChatHistory.$__save();
-  //     console.log("Chat data saved to MongoDB");
-  //     console.log("this seems to be working, the problem is in sending the content to MongoDB?")
-
-  //   } catch (error) {
-  //     console.error("Error saving chat data to MongoDB:", error);
-  //   }
-
-  //   console.log("Butt-oned this butt-on!")
-  // }
-
-  // const mongodb = require('mongodb'); // Assuming you're using the MongoDB driver
-
-  // const sendToServer = async () => {
-  //   // const sendToServer = async ({ prompt, completion }, client) => {
-  //   // try {
-  //   //   // Deconstruct `prompt` and `completion` from event for readability
-  //   //   // const { prompt, completion } = event;
-
-  //   //   // Check if `client` is already provided to avoid unnecessary connection creation
-  //   //   const mongoClient = client;
-  //   //   //   // const mongoClient = client || await mongodb.MongoClient.connect(
-  //   //   //   // Replace with your actual connection string
-  //   //   //   'mongodb://localhost:8080', // Example connection string
-  //   //   // //   { useNewUrlParser: true, useUnifiedTopology: true }
-  //   //   // // );
-
-  //   //   const db = mongoClient.db('your_database_name'); // Replace with your database name
-  //   //   const chatHistoryCollection = db.collection('chatHistory'); // Replace with your collection name
-
-  //   //   const newChatHistory = new ChatHistory({
-  //   //     prompt,
-  //   //     response: "compl"
-  //   //   });
-
-  //   //   await chatHistoryCollection.insertOne(newChatHistory); // Use insertOne for clearer intent
-  //   //   console.log("Chat data saved to MongoDB");
-  //   // } catch (error) {
-  //   //   console.error("Error saving chat data to MongoDB:", error);
-  //   //   // Consider adding more specific error handling based on the error type
-  //   // } finally {
-  //   //   // Close the connection if it was created within the function
-  //   //   // if (!client) {
-  //   //   //   await mongoClient.close();
-  //   //   // }
-  //   // }
-
-  //   // console.log("Sent data to server successfully!");
     console.log("not working yet");
   };
 
@@ -428,45 +366,6 @@ export default function HomePage() {
 
   const makeAnimation = async () => {
     console.log("not working yet!")
-
-    // const replicate = new Replicate({
-    //   auth: process.env.REPLICATE_API_TOKEN,
-    // });
-
-    // // const output = await replicate.run(
-    // //   "anotherjesse/zeroscope-v2-xl:1f0dd155aeff719af56f4a2e516c7f7d4c91a38c7b8e9e81808e7c71bde9b868",
-    // //   {
-    // //     input: {
-    // //       fps: 24,
-    // //       fast: false,
-    // //       width: 1024,
-    // //       height: 576,
-    // //       prompt: "A deep sea video of a bioluminescent siphonophore, 8k, beautiful, award winning, close up",
-    // //       num_frames: 24,
-    // //       guidance_scale: 17.5,
-    // //       negative_prompt: "noisy, washed out, ugly, distorted, broken",
-    // //       num_inference_steps: 50
-    // //     }
-    // //   }
-    // // );
-    // // console.log(output);
-
-    // const output = await replicate.run(
-    //   "lucataco/animate-diff:1531004ee4c98894ab11f8a4ce6206099e732c1da15121987a8eef54828f0663",
-    //   {
-    //     input: {
-    //       path: "rcnzCartoon3d_v10.safetensors",
-    //       seed: 255224557,
-    //       steps: 25,
-    //       prompt: "Jane Eyre with headphones, natural skin texture,4mm,k textures, soft cinematic light, adobe lightroom, photolab, hdr, intricate, elegant, highly detailed, sharp focus, cinematic look, soothing tones, insane details, intricate details, hyperdetailed, low contrast, soft cinematic light, dim colors, exposure blend, hdr, faded",
-    //       n_prompt: "deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, mutated hands and fingers, disconnected limbs, mutation, mutated, ugly, disgusting, blurry, amputation",
-    //       motion_module: "mm_sd_v14",
-    //       guidance_scale: 7.5
-    //     }
-    //   }
-    // );
-    // console.log(output);
-
   }
 
   // server-connection
@@ -483,7 +382,7 @@ export default function HomePage() {
 
     try {
       const response = await axios.post('https://hal9000-server.vercel.app/api/post/', {
-      // const response = await axios.post('http://localhost:8080/api/post/', {
+        // const response = await axios.post('http://localhost:8080/api/post/', {
         prompt,
       });
 
@@ -505,7 +404,7 @@ export default function HomePage() {
 
   // useEffect(() => {
   //   const fetchData = async () => {
-  //     const response = await axios.get('http://localhost:8080/api/post'); // Replace with your endpoint
+  //     const response = await axios.get('http://localhost:8080/api/post'); 
   //     setTexts(response.data);
   //   };
 
@@ -514,8 +413,7 @@ export default function HomePage() {
 
   // const handleClick = async () => {
   //   // const fetchData = async () => {
-  //   //   const response = await axios.get('http://localhost:8080/api/post'); // Replace with your endpoint
-  //   //   setTexts(response.data);
+  //   //   const response = await axios.get('http://localhost:8080/api/post'); 
   //   // };
 
   //   // fetchData();
@@ -534,7 +432,7 @@ export default function HomePage() {
 
           {/* Server-conncetion form */}
           <form onSubmit={handleSubmitToServer}
-          className="bg-black border-yellow-500 border-2 hover:bg-purple-800 items-center font-semibold text-yellow-500 rounded-r-md px-1 py-"
+            className="bg-black border-yellow-500 border-2 hover:bg-purple-800 items-center font-semibold text-yellow-500 rounded-r-md px-1 py-"
           >
             <label>
               Prompt:
