@@ -1,10 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./mongodb/connect.js";
-import postRoutes from './routes/postRoutes.js'; // Import postRoutes
+import connectDB from "../mongodb/connect.js";
+import postRoutes from '../routes/postRoutes.js'; // Import postRoutes
 
 dotenv.config();
+
+await connectDB(process.env.MONGODB_URL);
 
 const app = express();
 
@@ -25,15 +27,6 @@ app.get('/', async (req, res) => {
   res.send('Hello from otherside-store');
 });
 
-const startServer = async () => {
-  try {
-    await connectDB(process.env.MONGODB_URL);
-    app.listen(3000, () => console.log('Server started on port http://localhost:3000'));
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-startServer();
+app.listen(3000, () => console.log('Server ready on port 3000.'));
 
 export default app;
